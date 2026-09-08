@@ -1,0 +1,9 @@
+*.result
+
+*/tests/*
+
+*.exe
+
+*.out
+
+*.in
