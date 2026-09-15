@@ -1,0 +1,44 @@
+#!/bin/bash
+# COP3514 Fall 2026 Project 2 student-side tester
+#
+# Usage:
+#   1. Compile project2.c with: gcc -std=c99 -Wall project2.c
+#   2. Put a.out, this script, and the tests folder in the same directory.
+#   3. Run: ./try_project2
+
+passed=0
+total=10
+
+for i in $(seq 1 ${total}); do
+    echo -e '\033[0;31m====================================================\033[0m'
+    echo -e '\033[0;31mTest case #'${i}'\033[0m'
+    echo -e '\033[0;31m====================================================\033[0m'
+
+    timeout 3s ./a.out < "./tests/${i}.in" 2>&1 | head -c 20000 > "./${i}.out"
+    run_status=${PIPESTATUS[0]}
+
+    if [[ ${run_status} -eq 0 ]] && diff -w "./${i}.out" "./tests/${i}.out" >/dev/null; then
+        passed=$((passed+1))
+        echo -e '\033[0;31mCorrect!\033[0m'
+    else
+        if [[ ${run_status} -eq 124 ]]; then
+            echo -e '\033[0;31mTimed out after 3 seconds. Check your loop/sentinel logic.\033[0m'
+        fi
+        echo -e '\033[0;31mOutput:\033[0m'
+        cat -v "./${i}.out"
+        echo
+        echo -e '\033[0;31m----------------------------------------------------\033[0m'
+        echo -e '\033[0;31mExpected output:\033[0m'
+        cat -v "./tests/${i}.out"
+        echo
+        echo -e '\033[0;31m----------------------------------------------------\033[0m'
+        echo -e '\033[0;31mDifference:\033[0m'
+        diff -w "./tests/${i}.out" "./${i}.out" || true
+    fi
+
+    echo -e '\033[0;31m====================================================\033[0m'
+    echo
+
+done
+
+echo "Passed ${passed} of ${total} test cases."
