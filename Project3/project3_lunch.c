@@ -9,7 +9,7 @@ Description:
 
 #include <stdio.h> // Include the standard input/output library
 
-void popularLunch(int lunches[], int n); // Function definition
+void search(int lunches[], int n); // Function definition
 
 int main()
 {
@@ -21,9 +21,9 @@ int main()
     while (numberOfStudents <= 0)
     {
         // If the number of lunch orders is invalid, display an error message and prompt again
-        printf("Invalid number of lunch orders. The numberof orders must be greater than 0.\n");
+        printf("Invalid number of lunch orders. The number of orders must be greater than 0.\n");
         printf("Enter number of lunch orders: ");
-        scanf("%d", &numberOfStudents);
+        scanf("%d", &numberOfStudents); 
     }
     // Prompt the user to enter lunch selections for each student and validate the input
     int lunches[numberOfStudents];
@@ -48,12 +48,12 @@ int main()
             printf("Invalid lunch selection - %d. Lunch selection must be between 1 and 5.\n", lunchSelection);
         }
     }
-    // Call the popularLunch function to determine and display the most popular lunch option(s)
-    popularLunch(lunches, numberOfStudents);
+    // Call the search function to determine and display the most popular lunch option(s)
+    search(lunches, numberOfStudents);
     return 0;
 }
 
-void popularLunch(int lunches[], int n)
+void search(int lunches[], int n)
 {
     // Array to hold counts for lunch options 1-5
     int counts[5] = {0}; 
