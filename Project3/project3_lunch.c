@@ -16,7 +16,7 @@ Most popular lunch option(s): 2
 
 #include <stdio.h> // Include the standard input/output library
 
-int popularLunch(int lunches[], int n);
+void popularLunch(int lunches[], int n);
 
 int main()
 {
@@ -30,26 +30,32 @@ int main()
         scanf("%d", &numberOfStudents);
     }
     int lunches[numberOfStudents];
+    int ordersEntered = 0;
+    int lunchSelection;
     printf("Enter lunch selections: ");
-    for (int i = 0; i < numberOfStudents; i++)
+    while (ordersEntered < numberOfStudents)
     {
-        scanf("%d", &lunches[i]);
+        scanf("%d", &lunchSelection);
+        if (lunchSelection >= 1 && lunchSelection <= 5)
+        {
+            lunches[ordersEntered] = lunchSelection;
+            ordersEntered++;
+        }
+        else
+        {
+            printf("Invalid lunch selection - %d. Lunch selection must be between 1 and 5.\n", lunchSelection);
+        }
     }
     popularLunch(lunches, numberOfStudents);
     return 0;
 }
 
-int popularLunch(int lunches[], int n)
+void popularLunch(int lunches[], int n)
 {
     int counts[5] = {0}; // Array to hold counts for lunch options 1-5
     for (int i = 0; i < n; i++)
     {
-        if (lunches[i] >= 1 && lunches[i] <= 5)
-        {
-            counts[lunches[i] - 1]++;
-        }else{
-            printf("Invalid lunch selection - %d. Lunch selections must be between 1 and 5.\n", lunches[i]);
-        }
+        counts[lunches[i] - 1]++;
     }
 
     int maxCount = 0;
@@ -70,5 +76,4 @@ int popularLunch(int lunches[], int n)
         }
     }
     printf("\n");
-    return 0;
 }
