@@ -1,0 +1,41 @@
+#!/bin/bash
+
+if [[ ! -f ./a.out ]]; then
+    echo "a.out was not found. Compile project4.c first with:"
+    echo "gcc -std=c99 -Wall project4.c"
+    exit 1
+fi
+
+passed=0
+total=10
+
+for i in $(seq 1 ${total}); do
+    echo -e '\033[0;31m====================================================\033[0m'
+    echo -e '\033[0;31mTest case #'${i}'\033[0m'
+    echo -e '\033[0;31m====================================================\033[0m'
+
+    timeout 3s ./a.out < "./tests/${i}.in" > "./${i}.out" 2>&1
+    run_status=$?
+
+    if [[ ${run_status} -eq 0 ]] && diff -w "./${i}.out" "./tests/${i}.out" >/dev/null; then
+        passed=$((passed+1))
+        echo -e '\033[0;31mCorrect!\033[0m'
+    else
+        if [[ ${run_status} -eq 124 ]]; then
+            echo "Timed out after 3 seconds. Check your loops."
+        fi
+        echo "Output:"
+        cat "./${i}.out"
+        echo
+        echo "Expected output:"
+        cat "./tests/${i}.out"
+        echo
+        echo "Difference:"
+        diff -w "./tests/${i}.out" "./${i}.out" || true
+    fi
+    echo
+done
+
+echo "Passed ${passed} of ${total} output test cases."
+echo
+python3 ./check_source.py
