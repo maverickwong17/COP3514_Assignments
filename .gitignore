@@ -8,4 +8,8 @@
 
 *.in
 
-/*/try_project*_*
+./*/try_project*_*
+
+/*/try_project*/**
+
+.vscode
