@@ -10,7 +10,7 @@ Description:
 // Include the standard input/output library
 #include <stdio.h> 
 
-int main() {
+int main(int argc, char *argv[]) {
 
     return 0;
 }
