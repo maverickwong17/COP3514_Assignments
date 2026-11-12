@@ -30,43 +30,46 @@ typedef struct Node {
 
 /* Append a new package ID at the end of the list. */
 Node *add_end(Node *head, int id) {
-    /* TODO: Allocate a node and append it to the list.
-       If malloc fails, terminate with exit(EXIT_FAILURE). */
+    // Allocate a new node for the package ID.
     Node *new_node = (Node *)malloc(sizeof(Node));
+    // Check if the memory allocation was successful.
     if (new_node == NULL) {
         printf("Error: Memory allocation failed\n");
         exit(EXIT_FAILURE);
     }
+    // Initialize the new node with the given ID and set its next pointer to NULL.
     new_node->id = id;
     new_node->next = NULL;
-
+    // If the list is empty, the new node becomes the head of the list.
     if (head == NULL) {
         return new_node;
     }
-
+    // Otherwise, traverse the list to find the last node.
     Node *current = head;
     while (current->next != NULL) {
         current = current->next;
     }
+    // Append the new node to the end of the list.
     current->next = new_node;
-    return head; /* Return the head of the list. */
+    // return the head of the list.
+    return head;
 }
 
 /* Remove the FIRST node whose ID matches id.
    Set *removed to 1 if a node is removed, or 0 otherwise. */
 Node *remove_first_match(Node *head, int id, int *removed) {
-    /* TODO: If removed is NULL, print:
-       Function remove_first_match called without proper arguments
-       and terminate with exit(EXIT_FAILURE).
-       Otherwise, find and free the first matching node. */
+    // Check if the removed pointer is valid.
     if (removed == NULL) {
         printf("Function remove_first_match called without proper arguments\n");
         exit(EXIT_FAILURE);
     }
+    // Initialize the removed flag to 0.
     *removed = 0;
+    // If the list is empty, return NULL.
     if (head == NULL) {
         return NULL;
     }
+    // If the head node matches the ID, remove it.
     if (head->id == id) {
         Node *temp = head;
         head = head->next;
@@ -74,8 +77,10 @@ Node *remove_first_match(Node *head, int id, int *removed) {
         *removed = 1;
         return head;
     }
+    // Otherwise, traverse the list to find the first matching node.
     Node *current = head;
     while (current->next != NULL) {
+        // Check if the next node matches the ID.
         if (current->next->id == id) {
             Node *temp = current->next;
             current->next = temp->next;
@@ -85,16 +90,19 @@ Node *remove_first_match(Node *head, int id, int *removed) {
         }
         current = current->next;
     }
-    return head; /* Return the head of the list. */
+    // If no matching node is found, return the head of the list.
+    return head;
 }
 
 /* Print: The linked list contains: [10][20] */
 void print_list(Node *head) {
-    /* TODO: Print every ID as [id], without spaces. */
+    // Print the header of the list.
     printf("The linked list contains:");
+    // If the list is not empty, print a space after the header.
     if (head != NULL) {
         printf(" ");
     }
+    // Traverse the list and print each node's ID.
     Node *current = head;
     while (current != NULL) {
         printf("[%d]", current->id);
@@ -105,17 +113,21 @@ void print_list(Node *head) {
 
 /* Free every node and set *head to NULL. */
 void clear_list(Node **head) {
-    /* TODO: Release all allocated nodes.
-       If head is NULL, safely do nothing. */
+    // If the head pointer is NULL, do nothing.
     if (head == NULL) {
         return;
     }
+    // Start from the head of the list.
     Node *current = *head;
     while (current != NULL) {
+        // Store the current node in a temporary pointer.
         Node *temp = current;
+        // Move to the next node.
         current = current->next;
+        // Free the temporary node.
         free(temp);
     }
+    // Set the head of the list to NULL.
     *head = NULL;
 }
 
