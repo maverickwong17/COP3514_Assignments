@@ -1,3 +1,12 @@
+/*
+project8.c
+Due Date:   11/17/2026
+Name:       Maverick Wong
+NetID:      U16095228
+Description:
+    This program implements a simple package tracking system using a linked list.
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -23,7 +32,24 @@ typedef struct Node {
 Node *add_end(Node *head, int id) {
     /* TODO: Allocate a node and append it to the list.
        If malloc fails, terminate with exit(EXIT_FAILURE). */
-    return head; /* Placeholder: replace this statement. */
+    Node *new_node = (Node *)malloc(sizeof(Node));
+    if (new_node == NULL) {
+        printf("Error: Memory allocation failed\n");
+        exit(EXIT_FAILURE);
+    }
+    new_node->id = id;
+    new_node->next = NULL;
+
+    if (head == NULL) {
+        return new_node;
+    }
+
+    Node *current = head;
+    while (current->next != NULL) {
+        current = current->next;
+    }
+    current->next = new_node;
+    return head; /* Return the head of the list. */
 }
 
 /* Remove the FIRST node whose ID matches id.
@@ -33,13 +59,47 @@ Node *remove_first_match(Node *head, int id, int *removed) {
        Function remove_first_match called without proper arguments
        and terminate with exit(EXIT_FAILURE).
        Otherwise, find and free the first matching node. */
-    return head; /* Placeholder: replace this statement. */
+    if (removed == NULL) {
+        printf("Function remove_first_match called without proper arguments\n");
+        exit(EXIT_FAILURE);
+    }
+    *removed = 0;
+    if (head == NULL) {
+        return NULL;
+    }
+    if (head->id == id) {
+        Node *temp = head;
+        head = head->next;
+        free(temp);
+        *removed = 1;
+        return head;
+    }
+    Node *current = head;
+    while (current->next != NULL) {
+        if (current->next->id == id) {
+            Node *temp = current->next;
+            current->next = temp->next;
+            free(temp);
+            *removed = 1;
+            return head;
+        }
+        current = current->next;
+    }
+    return head; /* Return the head of the list. */
 }
 
 /* Print: The linked list contains: [10][20] */
 void print_list(Node *head) {
-    printf("The linked list contains:");
     /* TODO: Print every ID as [id], without spaces. */
+    printf("The linked list contains:");
+    if (head != NULL) {
+        printf(" ");
+    }
+    Node *current = head;
+    while (current != NULL) {
+        printf("[%d]", current->id);
+        current = current->next;
+    }
     printf("\n");
 }
 
@@ -47,6 +107,16 @@ void print_list(Node *head) {
 void clear_list(Node **head) {
     /* TODO: Release all allocated nodes.
        If head is NULL, safely do nothing. */
+    if (head == NULL) {
+        return;
+    }
+    Node *current = *head;
+    while (current != NULL) {
+        Node *temp = current;
+        current = current->next;
+        free(temp);
+    }
+    *head = NULL;
 }
 
 /* -------------------------------------------------
