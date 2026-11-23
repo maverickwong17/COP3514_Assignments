@@ -1,10 +1,10 @@
 /*
-template.c
+project9_supply.c
 Due Date:   
 Name:       Maverick Wong
 NetID:      U16095228
 Description:
-
+    This program implements a linked list to manage an inventory of items. It allows the user to add items, remove stock, print the inventory, and quit the program. The items are stored in an ordered list based on their name, color, and unit price. The program also handles cases where an item already exists in the list or when there is not enough quantity to remove.
 */
 
 // Include the standard library
@@ -76,6 +76,7 @@ int main(void)
     }
 }
 
+// ------ Code Modified from here ------
 /* 
  * add_to_ordered_list: add a new item to the list in order. If the item already exists, update the quantity. 
  */
@@ -179,6 +180,7 @@ Item *delete_from_list(Item *list){
 
     return list;
 }
+// ------ Code Modified Above ------
 
 /*
  * print_list: print the item name, color, unit price, and 
@@ -186,9 +188,9 @@ Item *delete_from_list(Item *list){
  */
 void print_list(Item *list){
     Item *p;
-    printf("%-32s%-15s%10s%11s\n", "Item Name", "Color", "Unit Price", "Quantity");
+    printf("%-32s%-15s%-13s%s\n", "Item Name", "Color", "Unit Price", "Quantity");
     for (p = list; p != NULL; p = p->next)
-    printf("%-32s%-15s%10.2f%11d\n", p->name, p->color, p->unit_price, p->quantity);
+        printf("%-40s%-12s%13.2f%8d\n", p->name, p->color, p->unit_price, p->quantity);
 }
 
 /*
